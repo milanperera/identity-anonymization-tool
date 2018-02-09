@@ -120,6 +120,10 @@ public class ForgetMeExecutionEngine {
         for (String processorName : executors.keySet()) {
             List<ForgetMeInstruction> instructions = getInstructions(processorName, systemEnv);
             ProcessorConfig processorConfig = systemConfig.getProcessorConfigMap().get(processorName);
+            if (processorConfig == null) {
+                throw new ForgetMeExecutionException("Cannot find processor configuration for processor: " +
+                        processorName);
+            }
             ProcessorPipeline processorPipeline = new ProcessorPipeline(systemConfig.getWorkDir(), processorName,
                     userIdentifier, processorConfig, instructions);
             ExecutorService executorService = executors.get(processorName);
